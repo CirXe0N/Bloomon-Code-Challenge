@@ -241,7 +241,8 @@ Temporary Items
 inputs/*
 !inputs/example01.txt
 outputs
-test_data_out
+test_data_out/*
+!test_data_out/.gitkeep
 .pytest_cache
 
 
