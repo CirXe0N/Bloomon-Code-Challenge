@@ -17,4 +17,4 @@ if __name__ == "__main__":
     dir_in = Path(__file__).parent.parent / "inputs"
     dir_out = Path(__file__).parent.parent / "outputs"
     run(dir_in, dir_out)
-    print("Bouquets created!")
+    print(f"Bouquets created! The results can be found here: {dir_out.absolute()}")
