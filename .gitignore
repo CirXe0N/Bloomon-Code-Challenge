@@ -240,7 +240,8 @@ Temporary Items
 # Custom
 inputs/*
 !inputs/example01.txt
-outputs
+outputs/*
+!outputs/.gitkeep
 test_data_out/*
 !test_data_out/.gitkeep
 .pytest_cache
