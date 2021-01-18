@@ -13,8 +13,8 @@ class Design:
 
 
 class BouquetResourcePlanner:
-    _pattern_flowers = re.compile(r'^[a-z][A-Z]$')
-    _pattern_designs = re.compile(r'^([A-Z])([A-Z])((?:\d+[a-z])+)(\d+)$')
+    _pattern_flowers = re.compile(r"^[a-z][A-Z]$")
+    _pattern_designs = re.compile(r"^([A-Z])([A-Z])((?:\d+[a-z])+)(\d+)$")
 
     _flowers: Dict[str, Dict[str, int]]
     _designs: List[Design]
@@ -67,8 +67,9 @@ class BouquetResourcePlanner:
         except KeyError:
             pass
 
-    def add_design(self, name: str, size: str, total_quantity: int,
-                   flowers: Dict[str, int]) -> None:
+    def add_design(
+        self, name: str, size: str, total_quantity: int, flowers: Dict[str, int]
+    ) -> None:
         """
         Add design to the resource planner.
 
@@ -78,10 +79,7 @@ class BouquetResourcePlanner:
         :param flowers: The required type of flowers (species and size).
         """
         design = Design(
-            name=name,
-            size=size,
-            total_quantity=total_quantity,
-            flowers=flowers
+            name=name, size=size, total_quantity=total_quantity, flowers=flowers
         )
         self._designs.append(design)
 
@@ -103,7 +101,7 @@ class BouquetResourcePlanner:
                         name=groups[0],
                         size=groups[1],
                         flowers=flowers,
-                        total_quantity=int(groups[3])
+                        total_quantity=int(groups[3]),
                     )
 
     def create_bouquet_code(self, design: Design) -> Union[str, None]:
@@ -116,7 +114,7 @@ class BouquetResourcePlanner:
         """
         unused_space = design.total_quantity
         required_flowers = []
-        bouquet_code = ''
+        bouquet_code = ""
 
         for species, max_quantity in design.flowers.items():
             amount = 0
@@ -128,8 +126,7 @@ class BouquetResourcePlanner:
             elif inventory_amount <= 0:
                 continue
 
-            elif inventory_amount >= unused_space and \
-                    max_quantity >= unused_space:
+            elif inventory_amount >= unused_space and max_quantity >= unused_space:
                 amount = unused_space
 
             elif inventory_amount >= max_quantity:
@@ -139,20 +136,18 @@ class BouquetResourcePlanner:
                 amount = inventory_amount
 
             if amount > 0:
-                required_flowers.append({
-                    'species': species,
-                    'size': design.size,
-                    'amount': amount
-                })
+                required_flowers.append(
+                    {"species": species, "size": design.size, "amount": amount}
+                )
                 unused_space -= amount
-                bouquet_code = f'{bouquet_code}{amount}{species}'
+                bouquet_code = f"{bouquet_code}{amount}{species}"
 
         if unused_space > 0:
             return None
 
         for flower in required_flowers:
             self.remove_flowers(**flower)
-        return f'{design.name}{design.size}{bouquet_code}'
+        return f"{design.name}{design.size}{bouquet_code}"
 
     def build_bouquet_list(self) -> List[str]:
         """
@@ -189,6 +184,6 @@ class BouquetResourcePlanner:
         :return dict: The converted dict with the flower data.
         """
         flowers = {}
-        for max_quantity, species in re.findall(r'(\d+)([a-z])', data):
+        for max_quantity, species in re.findall(r"(\d+)([a-z])", data):
             flowers[species] = int(max_quantity)
         return flowers
